@@ -19,7 +19,7 @@
   <script>
 
   $(function() {
-    $.get('data-scatter.csv', function(csv) {
+    $.get('data-scatter.csv', function(csv) {     // EDIT to match your CSV data file name
       Highcharts.chart('container', {
         chart: {
           type: 'scatter',
@@ -27,7 +27,7 @@
         },
 
         title: {
-          text: 'Highcharts scatter chart from CSV'
+          text: 'Highcharts scatter chart from CSV'  // EDIT to insert your chart title
         },
 
         subtitle: {
@@ -37,7 +37,7 @@
 
         data: {
           csv: csv,
-          // insert column headers (x, y, name...) to match column numbers (0, 1, 2...). Optional: category: 3
+          // data column headers (x, y, name...) must match column numbers (0, 1, 2...). Optional: category: 3
           seriesMapping: [{x: 0, y: 1, name: 2}],
           complete: function(data) {
             categoriesIntoSeries(data);
@@ -47,18 +47,18 @@
         },
 
         legend: {
-          enabled: true
+          enabled: false  // EDIT to true if using more than one category, color, shape
         },
 
         xAxis: {
           title: {
-            text: 'Insert x-axis label'
+            text: 'Insert x-axis label'  // EDIT to insert horizontal x-axis label
           }
         },
 
         yAxis: {
           title: {
-            text: 'Insert y-axis label'
+            text: 'Insert y-axis label'   // EDIT to insert vertical y-axis label
           }
         },
 
@@ -80,7 +80,7 @@
             useHTML: true,
             formatter: function() {
               point = this.point;
-
+              // EDIT tooltip text labels below
               html = '<table>';
               html += '<tr><th colspan="2"><h3>' + point.name + '</h3></th></tr>';
               html += '<tr><th>Median family income:</th><td>$' + comma(point.x) + '</td></tr>';
