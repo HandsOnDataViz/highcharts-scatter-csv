@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Highcharts-scatter-csv</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8">
+  <!-- load jQuery -->
+  <script src="https://code.jquery.com/jquery-3.1.1.min.js"
+  integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+  crossorigin="anonymous"></script>
+  <!-- load Highcharts, Highcharts-more, and modules -->
+  <script src="https://code.highcharts.com/highcharts.js"></script>
+  <script src="https://code.highcharts.com/highcharts-more.js"></script>
+  <script src="https://code.highcharts.com/modules/data.js"></script>
+  <script src="https://code.highcharts.com/modules/exporting.js"></script>
+</head>
+<body>
+  <div id="container" style="width:100%; height:400px;"></div>
+  <script>
+
+  $(function() {
+    $.get('data-scatter.csv', function(csv) {
+      Highcharts.chart('container', {
+        chart: {
+          type: 'scatter',
+          zoomType: 'xy'
+        },
+
+        title: {
+          text: 'Highcharts scatter chart from CSV'
+        },
+
+        subtitle: {
+          text: 'View <a href="data-scatter.csv">source data</a> from <a href="http://trendct.org/2016/05/06/wealth-and-grades-compare-connecticuts-school-districts/">TrendCT</a>',
+          useHTML: true
+        },
+
+        data: {
+          csv: csv,
+          // insert column headers (x, y, name...) to match column numbers (0, 1, 2...). Optional: category: 3
+          seriesMapping: [{x: 0, y: 1, name: 2}],
+          complete: function(data) {
+            categoriesIntoSeries(data);
+            changeSeriesColors(data);
+            changeSeriesMarkers(data)
+          }
+        },
+
+        legend: {
+          enabled: true
+        },
+
+        xAxis: {
+          title: {
+            text: 'Insert x-axis label'
+          }
+        },
+
+        yAxis: {
+          title: {
+            text: 'Insert y-axis label'
+          }
+        },
+
+        plotOptions: {
+            scatter: {
+                marker: {
+                    radius: 5,
+                    states: {
+                        hover: {
+                          enabled: true,
+                        }
+                    }
+                },
+                stickyTracking: false,
+            }
+        },
+
+        tooltip: {
+            useHTML: true,
+            formatter: function() {
+              point = this.point;
+
+              html = '<table>';
+              html += '<tr><th colspan="2"><h3>' + point.name + '</h3></th></tr>';
+              html += '<tr><th>Median family income:</th><td>$' + comma(point.x) + '</td></tr>';
+              html += '<tr><th>Grades above/below average:</th><td>' + point.y + '</td></tr>';
+              html += '</table>';
+
+              return html;
+            },
+            followPointer: true,
+            hideDelay: 50
+        },
+
+        credits: {
+          enabled: true,
+          text: 'View code from DataVizForAll.org',
+          href: 'https://www.datavizforall.org/highcharts'
+        },
+
+      });
+    });
+  });
+
+  // Split data based on 'category' property; needed for correct legend display
+
+  function categoriesIntoSeries(data) {
+    rows = data.series[0].data;
+    data.series = [];
+
+    for (i = 0; i < rows.length; i++) {
+      cat = rows[i].category;
+      catExists = false;
+      for (j = 0; j < data.series.length; j++) {
+        if (data.series[j].name == cat) {
+          // Add a data point to existing series
+          data.series[j].data.push(rows[i]);
+          catExists = true;
+        }
+      }
+      if (!catExists) {
+        // When category is encountered for the first time, create a series
+        data.series.push({name: cat, data: [rows[i]]})
+      }
+    }
+  }
+
+
+  // Customize colors of series
+
+  function changeSeriesColors(data) {
+    colors = {
+      'SampleCategory1': 'rgba(100, 0, 0, 0.3)', // to add transparency, define colors in rgba() model, where the last number is between 0 and 1 (opacity)
+      'SampleCategory2': 'red'
+    }
+
+    for (i = 0; i < data.series.length; i++) {
+      data.series[i].color = colors[data.series[i].name] || 'rgba(51, 102, 255, 0.5)';
+    }
+  }
+
+
+  // Customize markers of scatter series. Possible options are:
+  // 'circle', 'square', 'diamond', 'triangle', 'triangle-down'
+  function changeSeriesMarkers(data) {
+    markers = {
+      'SampleCategory1': 'circle',
+      'SampleCategory2': 'triangle'
+    }
+
+    for (i = 0; i < data.series.length; i++) {
+      data.series[i].marker = {symbol: markers[data.series[i].name] || 'circle'};
+    }
+  }
+
+  // Returns a string that contains digits of val split by comma evey 3 positions
+  // Example: 12345678 -> "12,345,678"
+
+  function comma(val) {
+      while (/(\d+)(\d{3})/.test(val.toString())) {
+          val = val.toString().replace(/(\d+)(\d{3})/, '$1' + ',' + '$2');
+      }
+      return val;
+  }
+
+  </script>
+</body>
+</html>
