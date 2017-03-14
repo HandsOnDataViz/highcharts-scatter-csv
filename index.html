@@ -31,7 +31,7 @@
         },
 
         subtitle: {
-          text: 'View <a href="data-scatter.csv"> data</a> from <a href="http://INSERT-LINK">source </a>', // EDIT link and text
+          text: 'View <a href="data-scatter.csv"> source data</a>', // EDIT link and text
           useHTML: true
         },
 
@@ -80,10 +80,10 @@
             useHTML: true,
             formatter: function() {
               point = this.point;
-              // EDIT tooltip text labels below
+              // EDIT tooltip text labels below to match your data
               html = '<table>';
-              html += '<tr><th colspan="2"><h3>' + point.name + '</h3></th></tr>';
-              html += '<tr><th>Median family income:</th><td>$' + comma(point.x) + '</td></tr>';
+              html += '<tr><th colspan="2"><h3>District: ' + point.name + '</h3></th></tr>';
+              html += '<tr><th>Median household income:</th><td>$' + comma(point.x) + '</td></tr>';
               html += '<tr><th>Grades above/below average:</th><td>' + point.y + '</td></tr>';
               html += '</table>';
 
