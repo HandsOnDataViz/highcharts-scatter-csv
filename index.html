@@ -18,12 +18,22 @@
   <div id="container" style="width:100%; height:400px;"></div>
   <script>
 
+  creditURL = 'https://www.datavizforall.org/highcharts';
+
   $(function() {
     $.get('data-scatter.csv', function(csv) {     // EDIT to match your CSV data file name
       Highcharts.chart('container', {
         chart: {
           type: 'scatter',
-          zoomType: 'xy'
+          zoomType: 'xy',
+
+          events: {
+            load: function() {
+              this.credits.element.onclick = function() {
+                window.open(creditURL, '_blank');
+              }
+            }
+          }
         },
 
         title: {
@@ -96,7 +106,7 @@
         credits: {
           enabled: true,
           text: 'View Highcharts.com template by DataVizForAll.org',
-          href: 'https://www.datavizforall.org/highcharts'
+          href: creditURL,
         },
 
       });
