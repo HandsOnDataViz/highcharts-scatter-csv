@@ -1,8 +1,8 @@
 # highcharts-scatter-csv
-Highcharts XY scatter chart template with CSV data
+Highcharts XY scatter chart template with CSV data for https://HandsOnDataViz book
 
 ## link to live chart (replace with your own link)
-https://datavizforall.github.io/highcharts-scatter-csv/index.html
+https://handsondataviz.github.io/highcharts-scatter-csv/index.html
 
 ## license
 http://www.highcharts.com is free for personal websites, school sites, or non-profit organizations. Commercial use requires the purchase of a license.
@@ -15,5 +15,3 @@ http://www.highcharts.com is free for personal websites, school sites, or non-pr
 - from TrendCT, NY Times, Stanford Education Data Archive, and American Community Survey 2009-13
 - see data details at https://github.com/ontheline/otl-scatter-districts-income-grades
 
-## learn more at DataVizForAll.org book
-- Tutorial: Modify and Host a Highcharts Scatter Chart Template on GitHub, https://datavizforall.org
